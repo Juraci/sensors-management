@@ -1,0 +1,15 @@
+{
+  "name": "sensors-management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/Juraci/sensors-management"
+  },
+  "author": "Juraci Vieira",
+  "license": "ISC"
+}
