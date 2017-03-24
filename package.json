@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && node index.js",
     "build": "rm -rf ./build && babel app -d build",
-    "test": "npm run lint && npm run unit-tests && npm run integration-tests",
+    "test": "npm run acceptance",
     "acceptance": "mocha --opts spec/acceptance/mocha.opts spec/acceptance/*.js",
     "fine-grained-specs": "mocha --opts spec/fine-grained/mocha.opts spec/fine-grained/**/*.js",
     "lint": "eslint '**/*.js'",
