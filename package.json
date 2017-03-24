@@ -4,12 +4,40 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "start": "npm run build && node index.js",
+    "build": "rm -rf ./build && babel app -d build",
+    "test": "npm run lint && npm run unit-tests && npm run integration-tests",
+    "integration-tests": "mocha --opts tests/integration/mocha.opts tests/integration/*.js",
+    "unit-tests": "mocha --opts tests/unit/mocha.opts tests/unit/**/*.js",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint '**/*.js' --fix"
   },
   "repository": {
     "type": "git",
     "url": "github.com/Juraci/sensors-management"
   },
   "author": "Juraci Vieira",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-node6": "^11.0.0",
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.1",
+    "express": "^4.15.2",
+    "jsonapi-serializer": "^3.4.2",
+    "morgan": "^1.8.1",
+    "pg": "^6.1.5",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.30.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "mocha": "^3.2.0",
+    "supertest": "^3.0.0"
+  }
 }

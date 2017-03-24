@@ -1,0 +1,16 @@
+{
+  "extends":"airbnb",
+  "rules": {
+    "complexity": [error, { "max": 2 }],
+  },
+  "env": {
+    "mocha": true
+  },
+  "globals": {
+    "expect": false,
+    "sinon": false,
+    "app": false,
+    "request": false,
+    "destroyAll": false
+  }
+}

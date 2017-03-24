@@ -1,0 +1,12 @@
+services:
+  - postgresql
+
+before_script:
+  - sudo psql -c 'create database pomodorify;' -U postgres
+
+language: node_js
+node_js:
+  - "6"
+
+env:
+  - NODE_ENV=test DB_HOST=localhost
