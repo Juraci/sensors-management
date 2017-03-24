@@ -2,7 +2,7 @@ services:
   - postgresql
 
 before_script:
-  - sudo psql -c 'create database pomodorify;' -U postgres
+  - sudo psql -c 'create database sensors-management;' -U postgres
 
 language: node_js
 node_js:
