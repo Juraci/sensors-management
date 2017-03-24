@@ -7,8 +7,8 @@
     "start": "npm run build && node index.js",
     "build": "rm -rf ./build && babel app -d build",
     "test": "npm run lint && npm run unit-tests && npm run integration-tests",
-    "integration-tests": "mocha --opts tests/integration/mocha.opts tests/integration/*.js",
-    "unit-tests": "mocha --opts tests/unit/mocha.opts tests/unit/**/*.js",
+    "acceptance": "mocha --opts spec/acceptance/mocha.opts spec/acceptance/*.js",
+    "fine-grained-specs": "mocha --opts spec/fine-grained/mocha.opts spec/fine-grained/**/*.js",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix"
   },
