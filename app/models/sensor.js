@@ -1,13 +1,13 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
-  var Sensor = sequelize.define('Sensor', {
-    boardId: DataTypes.STRING
+
+module.exports = function (sequelize, DataTypes) {
+  const Sensor = sequelize.define('Sensor', {
+    boardId: DataTypes.STRING,
   }, {
     classMethods: {
-      associate: function(models) {
+      associate(models) {
         // associations can be defined here
-      }
-    }
+      },
+    },
   });
   return Sensor;
 };
