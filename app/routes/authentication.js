@@ -1,26 +1,15 @@
 import express from 'express';
+import UsersController from '../controllers/users';
 
 const router = express.Router();
 
 export default ({ datasource, jsonParser }) => {
+  const usersController = new UsersController(datasource.models);
+
   router.route('/')
     .post(jsonParser, (req, res) => {
-      const User = datasource.models.User;
-
-      User.find({ where: { email: req.body.email }})
-        .then((record) => {
-          if (!record || record.password !== req.body.password) {
-            return res.status(200).json({
-              success: false,
-              message: 'Authentication failed',
-            });
-          }
-          return res.status(200).json({
-            success: true,
-            message: 'enjoy your token',
-            token: 'auth-token',
-          });
-        })
+      usersController.authenticate({ email: req.body.email, password: req.body.password })
+        .then(result => res.status(result.status).json(result.data));
     });
 
   return router;
