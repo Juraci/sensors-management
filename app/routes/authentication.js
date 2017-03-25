@@ -9,7 +9,7 @@ export default ({ datasource, jsonParser }) => {
 
       User.find({ where: { email: req.body.email }})
         .then((record) => {
-          if (record.password !== req.body.password) {
+          if (!record || record.password !== req.body.password) {
             return res.status(200).json({
               success: false,
               message: 'Authentication failed',
