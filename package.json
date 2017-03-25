@@ -8,7 +8,7 @@
     "build": "rm -rf ./build && babel app -d build",
     "test": "NODE_ENV=test npm run acceptance",
     "acceptance": "mocha --opts spec/acceptance/mocha.opts spec/acceptance/*.js",
-    "fine-grained-specs": "mocha --opts spec/fine-grained/mocha.opts spec/fine-grained/**/*.js",
+    "layers": "mocha --opts spec/layers/mocha.opts spec/layers/**/*.js",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix",
     "migrations": "sequelize db:migrate --env production"
