@@ -14,7 +14,7 @@ export default {
       min: 0,
       idle: 10000,
     },
-    logging: process.env.NODE_ENV === 'production' ? false : true,
+    logging: process.env.NODE_ENV !== 'production',
   },
   corsOptions: {
     origin: '*',

@@ -6,11 +6,12 @@
   "scripts": {
     "start": "npm run build && node index.js",
     "build": "rm -rf ./build && babel app -d build",
-    "test": "npm run acceptance",
+    "test": "NODE_ENV=test npm run acceptance",
     "acceptance": "mocha --opts spec/acceptance/mocha.opts spec/acceptance/*.js",
     "fine-grained-specs": "mocha --opts spec/fine-grained/mocha.opts spec/fine-grained/**/*.js",
     "lint": "eslint '**/*.js'",
-    "lint:fix": "eslint '**/*.js' --fix"
+    "lint:fix": "eslint '**/*.js' --fix",
+    "migrations": "sequelize db:migrate --env production"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,8 @@
     "morgan": "^1.8.1",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.30.2"
+    "sequelize": "^3.30.2",
+    "sequelize-cli": "^2.7.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
