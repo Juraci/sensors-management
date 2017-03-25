@@ -34,7 +34,7 @@ describe('POST /authenticate', () => {
         user = newRecord;
       }));
 
-    xit('returns Authentication failed message', (done) => {
+    it('returns Authentication failed message', (done) => {
       const credentials = { email: 'user-sample@sensors.com', password: 'my-wrong-password' };
       request
         .post('/authenticate')
@@ -42,7 +42,8 @@ describe('POST /authenticate', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.success).to.be.equal(false);
-          expect(res.body.message).to.not.be.equal('Authentication failed');
+          expect(res.body.message).to.be.equal('Authentication failed');
+          expect(res.body).to.not.have.key('token');
           done(err);
         });
     });
