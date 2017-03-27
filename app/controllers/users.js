@@ -8,7 +8,7 @@ export default class UsersController extends ApplicationController {
   }
 
   authenticate({ email, password }) {
-    return this.User.find({ where: { email }})
+    return this.User.find({ where: { email } })
       .then((record) => {
         if (!record || record.password !== password) {
           return UsersController.ok({
@@ -23,4 +23,4 @@ export default class UsersController extends ApplicationController {
         });
       });
   }
-};
+}

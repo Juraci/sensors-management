@@ -1,25 +1,33 @@
 import UsersController from '../../../app/controllers/users';
-import config from '../../../app/config/config';
-import datasource from '../../../app/config/datasource';
 
 describe('UsersController', () => {
-  let usersController;
   let datasource;
-  let User;
 
-  beforeEach(() => {
-    datasource = datasource({ config });
-    return datasource.sequelize.sync()
-      .then(() => {
-        usersController = new UsersController(datasource.models);
+  beforeEach(() => setupDatasource()
+      .then((ds) => {
+        datasource = ds;
       })
-      .then(() => {
-
-      });
-  });
+      .then(() => destroyAll(datasource)));
 
   describe('#authenticate', () => {
-    it('', () => {
+    context('valid credentials', () => {
+      const email = 'user-sample@sensors.com';
+      const password = 'my-secret-password';
+
+      beforeEach(() => datasource.models.User.create({ email, password }));
+
+      it('should authenticate user with valid credentials', () => {
+        const usersController = new UsersController(datasource.models);
+        return usersController.authenticate({ email, password })
+          .then((result) => {
+            expect(result.status).to.be.equal(200);
+            expect(result.data).to.be.deep.equal({
+              success: true,
+              message: 'enjoy your token',
+              token: 'auth-token',
+            });
+          });
+      });
     });
   });
 });

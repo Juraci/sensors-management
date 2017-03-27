@@ -13,7 +13,7 @@ export default {
       min: 0,
       idle: 10000,
     },
-    logging: process.env.NODE_ENV !== 'production',
+    logging: process.env.NODE_ENV !== 'production' ? console.log : false,
   },
   corsOptions: {
     origin: '*',

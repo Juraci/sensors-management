@@ -10,10 +10,8 @@ global.destroyAll = (done) => {
   const User = app.datasource.models.User;
   const Sensor = app.datasource.models.Sensor;
 
-  app.datasource.sequelize.sync().then(() => {
-    Sensor
-      .destroy({ where: {} })
-      .then(() => User.destroy({ where: {} }))
-      .then(() => done());
-  });
+  app.datasource.sequelize.sync()
+    .then(() => Sensor.destroy({ where: {} }))
+    .then(() => User.destroy({ where: {} }))
+    .then(() => done());
 };

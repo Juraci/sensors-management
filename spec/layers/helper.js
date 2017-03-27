@@ -1,8 +1,20 @@
-import sinon from 'sinon';
 import chai from 'chai';
-import sinonChai from 'sinon-chai';
+import config from '../../app/config/config';
+import datasource from '../../app/config/datasource';
 
-chai.use(sinonChai);
-
-global.sinon = sinon;
 global.expect = chai.expect;
+
+global.setupDatasource = () => {
+  const ds = datasource({ config });
+  return ds.sequelize.sync()
+      .then(() => ds);
+};
+
+global.destroyAll = (ds) => {
+  const User = ds.models.User;
+  const Sensor = ds.models.Sensor;
+
+  return ds.sequelize.sync()
+    .then(() => Sensor.destroy({ where: {} }))
+    .then(() => User.destroy({ where: {} }));
+};

@@ -1,18 +1,15 @@
 describe('POST /authenticate', () => {
   const User = app.datasource.models.User;
+  const email = 'user-sample@sensors.com';
+  const password = 'my-secret-password';
 
   beforeEach(done => destroyAll(done));
 
   context('when the user sends valid credentials', () => {
-    let user;
-
-    beforeEach(() => User.create({ email: 'user-sample@sensors.com', password: 'my-secret-password' })
-      .then((newRecord) => {
-        user = newRecord;
-      }));
+    beforeEach(() => User.create({ email, password }));
 
     it('returns the json web token', (done) => {
-      const credentials = { email: 'user-sample@sensors.com', password: 'my-secret-password' };
+      const credentials = { email, password };
       request
         .post('/authenticate')
         .send(credentials)
@@ -27,12 +24,7 @@ describe('POST /authenticate', () => {
   });
 
   context('when the user sends invalid password', () => {
-    let user;
-
-    beforeEach(() => User.create({ email: 'user-sample@sensors.com', password: 'my-secret-password' })
-      .then((newRecord) => {
-        user = newRecord;
-      }));
+    beforeEach(() => User.create({ email, password }));
 
     it('returns Authentication failed message', (done) => {
       const credentials = { email: 'user-sample@sensors.com', password: 'my-wrong-password' };
@@ -50,15 +42,10 @@ describe('POST /authenticate', () => {
   });
 
   context('when the user does not exist', () => {
-    let user;
-
-    beforeEach(() => User.create({ email: 'user-sample@sensors.com', password: 'my-secret-password' })
-      .then((newRecord) => {
-        user = newRecord;
-      }));
+    beforeEach(() => User.create({ email, password }));
 
     it('returns Authentication failed message', (done) => {
-      const credentials = { email: 'wrong-user@sensors.com', password: 'my-secret-password' };
+      const credentials = { email: 'wrong-user@sensors.com', password };
       request
         .post('/authenticate')
         .send(credentials)

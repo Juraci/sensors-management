@@ -11,6 +11,7 @@
     "sinon": false,
     "app": false,
     "request": false,
-    "destroyAll": false
+    "destroyAll": false,
+    "setupDatasource": false
   }
 }
