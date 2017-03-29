@@ -2,10 +2,12 @@ import jwt from 'jsonwebtoken';
 import ApplicationController from './application';
 
 export default class UsersController extends ApplicationController {
-  constructor(models) {
-    super({ model: models.User });
+  constructor(app) {
+    const User = app.get('datasource').models.User;
+    super({ model: User });
 
-    this.User = models.User;
+    this.User = User;
+    this.jwtConfig = app.get('config').jwt;
   }
 
   authenticate({ email, password }) {
@@ -18,7 +20,11 @@ export default class UsersController extends ApplicationController {
           });
         }
 
-        const token = jwt.sign({ id: record.id, email: record.email }, 'mysecret', { expiresIn: '24h' });
+        const token = jwt.sign({
+          id: record.id,
+          email: record.email
+        }, this.jwtConfig.secret, this.jwtConfig.expiresIn);
+
         return UsersController.ok({
           success: true,
           message: 'enjoy your token',

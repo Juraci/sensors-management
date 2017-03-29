@@ -21,5 +21,6 @@ export default {
   },
   jwt: {
     secret: process.env.SECRET || 'mysecret',
+    expirsIn: '24h',
   },
 };

@@ -3,8 +3,8 @@ import UsersController from '../controllers/users';
 
 const router = express.Router();
 
-export default ({ datasource, jsonParser }) => {
-  const usersController = new UsersController(datasource.models);
+export default ({ app, jsonParser }) => {
+  const usersController = new UsersController(app);
 
   router.route('/')
     .post(jsonParser, (req, res) => {

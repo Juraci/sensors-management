@@ -14,6 +14,6 @@ app.use(morgan('tiny'));
 app.set('config', config);
 app.set('datasource', datasource(app));
 
-app.use('/authenticate', authentication({ datasource: app.get('datasource'), jsonParser }));
+app.use('/authenticate', authentication({ app, jsonParser }));
 
 export default app;

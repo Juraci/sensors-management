@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import config from '../../../app/config/config';
 import UsersController from '../../../app/controllers/users';
 
 describe('UsersController', () => {
@@ -25,7 +24,7 @@ describe('UsersController', () => {
 
     context('when the user sends valid credentials', () => {
       it('returns the JWT', () => {
-        const usersController = new UsersController(datasource.models);
+        const usersController = new UsersController(app);
         return usersController.authenticate({ email, password })
           .then((result) => {
             expect(result.status).to.be.equal(200);
@@ -40,7 +39,7 @@ describe('UsersController', () => {
 
     context('when the user sends the wrong password', () => {
       it('returns Authentication failed message', () => {
-        const usersController = new UsersController(datasource.models);
+        const usersController = new UsersController(app);
         return usersController.authenticate({ email, password: 'wrong-password' })
           .then((result) => {
             expect(result.status).to.be.equal(200);
@@ -54,7 +53,7 @@ describe('UsersController', () => {
 
     context('when the user does not exist', () => {
       it('returns Authentication failed message', () => {
-        const usersController = new UsersController(datasource.models);
+        const usersController = new UsersController(app);
         return usersController.authenticate({ email: 'wrong-email@test.com', password })
           .then((result) => {
             expect(result.status).to.be.equal(200);

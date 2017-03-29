@@ -4,12 +4,22 @@ import datasource from '../../app/config/datasource';
 
 global.expect = chai.expect;
 
+global.config = config;
+
+global.app = {
+  get: (property) => {
+    return app[property];
+  }
+};
+
 global.setupDatasource = () => {
-  const ds = datasource({
-    get: () => config
-  });
+  app.config = config;
+  const ds = datasource(app);
   return ds.sequelize.sync()
-      .then(() => ds);
+      .then(() => {
+        app.datasource = ds;
+        return ds;
+      });
 };
 
 global.destroyAll = (ds) => {
