@@ -7,9 +7,7 @@ global.expect = chai.expect;
 global.config = config;
 
 global.app = {
-  get: (property) => {
-    return app[property];
-  }
+  get: property => app[property],
 };
 
 global.setupDatasource = () => {

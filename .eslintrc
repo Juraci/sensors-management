@@ -10,6 +10,7 @@
     "expect": false,
     "sinon": false,
     "app": false,
+    "config": false,
     "request": false,
     "destroyAll": false,
     "setupDatasource": false

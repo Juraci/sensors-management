@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import config from '../../app/config/config';
 
 describe('POST /authenticate', () => {
   const User = app.get('datasource').models.User;
@@ -11,12 +10,10 @@ describe('POST /authenticate', () => {
   context('when the user sends valid credentials', () => {
     let user;
 
-    beforeEach(() => {
-      return User.create({ email, password })
+    beforeEach(() => User.create({ email, password })
         .then((record) => {
           user = record;
-        });
-    });
+        }));
 
     it('returns the json web token', (done) => {
       const credentials = { email, password };

@@ -15,12 +15,10 @@ describe('UsersController', () => {
     const password = 'my-secret-password';
     let user;
 
-    beforeEach(() => {
-      return datasource.models.User.create({ email, password })
+    beforeEach(() => datasource.models.User.create({ email, password })
         .then((record) => {
           user = record;
-        });
-    });
+        }));
 
     context('when the user sends valid credentials', () => {
       it('returns the JWT', () => {

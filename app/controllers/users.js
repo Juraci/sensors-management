@@ -11,7 +11,14 @@ export default class UsersController extends ApplicationController {
   }
 
   static throwIfWrongPassord(user, password) {
-    if (!user || user.password !== password) {
+    if (user.password !== password) {
+      throw new Error(UsersController.failedAuthMessage());
+    }
+    return user;
+  }
+
+  static throwIfNotFound(user) {
+    if (!user) {
       throw new Error(UsersController.failedAuthMessage());
     }
     return user;
@@ -23,16 +30,15 @@ export default class UsersController extends ApplicationController {
         success: false,
         message: UsersController.failedAuthMessage(),
       });
-    } else {
-      throw err;
     }
+    throw err;
   }
 
   static authSuccess(token) {
     return UsersController.ok({
       success: true,
       message: 'enjoy your token',
-      token
+      token,
     });
   }
 
@@ -43,15 +49,16 @@ export default class UsersController extends ApplicationController {
   signToken(user) {
     return jwt.sign({
       id: user.id,
-      email: user.email
+      email: user.email,
     }, this.jwtConfig.secret, this.jwtConfig.expiresIn);
   }
 
   authenticate({ email, password }) {
     return this.User.find({ where: { email } })
-      .then(record => UsersController.throwIfWrongPassord(record, password))
+      .then(record => UsersController.throwIfNotFound(record))
+      .then(user => UsersController.throwIfWrongPassord(user, password))
       .then(user => this.signToken(user))
       .then(token => UsersController.authSuccess(token))
       .catch(err => UsersController.authFailed(err));
   }
-};
+}
