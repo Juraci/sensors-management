@@ -4,7 +4,7 @@ const resilientStart = require('./resilientStart');
 const port = process.env.PORT || 3000;
 
 const appInitializer = (app) => {
-  return app.datasource.sequelize.sync()
+  return app.get('datasource').sequelize.sync()
     .then(() => {
       return app.listen(port, () => {
         console.log(`Magic on port ${port}`);
