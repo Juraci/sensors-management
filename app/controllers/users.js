@@ -10,26 +10,48 @@ export default class UsersController extends ApplicationController {
     this.jwtConfig = app.get('config').jwt;
   }
 
+  static throwIfWrongPassord(user, password) {
+    if (!user || user.password !== password) {
+      throw new Error(UsersController.failedAuthMessage());
+    }
+    return user;
+  }
+
+  static authFailed(err) {
+    if (err.message === UsersController.failedAuthMessage()) {
+      return UsersController.ok({
+        success: false,
+        message: UsersController.failedAuthMessage(),
+      });
+    } else {
+      throw err;
+    }
+  }
+
+  static authSuccess(token) {
+    return UsersController.ok({
+      success: true,
+      message: 'enjoy your token',
+      token
+    });
+  }
+
+  static failedAuthMessage() {
+    return 'Authentication failed';
+  }
+
+  signToken(user) {
+    return jwt.sign({
+      id: user.id,
+      email: user.email
+    }, this.jwtConfig.secret, this.jwtConfig.expiresIn);
+  }
+
   authenticate({ email, password }) {
     return this.User.find({ where: { email } })
-      .then((record) => {
-        if (!record || record.password !== password) {
-          return UsersController.ok({
-            success: false,
-            message: 'Authentication failed',
-          });
-        }
-
-        const token = jwt.sign({
-          id: record.id,
-          email: record.email
-        }, this.jwtConfig.secret, this.jwtConfig.expiresIn);
-
-        return UsersController.ok({
-          success: true,
-          message: 'enjoy your token',
-          token
-        });
-      });
+      .then(record => UsersController.throwIfWrongPassord(record, password))
+      .then(user => this.signToken(user))
+      .then(token => UsersController.authSuccess(token))
+      .catch(err => UsersController.authFailed(err));
   }
 };
