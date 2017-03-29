@@ -5,7 +5,7 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     classMethods: {
       associate(models) {
-        // associations can be defined here
+        Sensor.belongsTo(models.User);
       },
     },
   });
