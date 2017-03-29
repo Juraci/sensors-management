@@ -5,7 +5,9 @@ import datasource from '../../app/config/datasource';
 global.expect = chai.expect;
 
 global.setupDatasource = () => {
-  const ds = datasource({ config });
+  const ds = datasource({
+    get: () => config
+  });
   return ds.sequelize.sync()
       .then(() => ds);
 };

@@ -11,9 +11,9 @@ const jsonParser = bodyParser.json();
 
 app.use(cors(config.corsOptions));
 app.use(morgan('tiny'));
-app.config = config;
-app.datasource = datasource(app);
+app.set('config', config);
+app.set('datasource', datasource(app));
 
-app.use('/authenticate', authentication({ datasource: app.datasource, jsonParser }));
+app.use('/authenticate', authentication({ datasource: app.get('datasource'), jsonParser }));
 
 export default app;

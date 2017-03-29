@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import ApplicationController from './application';
 
 export default class UsersController extends ApplicationController {
@@ -16,11 +17,13 @@ export default class UsersController extends ApplicationController {
             message: 'Authentication failed',
           });
         }
+
+        const token = jwt.sign({ id: record.id, email: record.email }, 'mysecret', { expiresIn: '24h' });
         return UsersController.ok({
           success: true,
           message: 'enjoy your token',
-          token: 'auth-token',
+          token
         });
       });
   }
-}
+};

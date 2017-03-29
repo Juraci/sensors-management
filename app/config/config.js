@@ -19,4 +19,7 @@ export default {
     origin: '*',
     methods: ['GET', 'PUT', 'POST', 'DELETE', 'PATCH'],
   },
+  jwt: {
+    secret: process.env.SECRET || 'mysecret',
+  },
 };

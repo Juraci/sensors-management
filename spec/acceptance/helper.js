@@ -7,10 +7,10 @@ global.request = request(app);
 global.expect = chai.expect;
 
 global.destroyAll = (done) => {
-  const User = app.datasource.models.User;
-  const Sensor = app.datasource.models.Sensor;
+  const User = app.get('datasource').models.User;
+  const Sensor = app.get('datasource').models.Sensor;
 
-  app.datasource.sequelize.sync()
+  app.get('datasource').sequelize.sync()
     .then(() => Sensor.destroy({ where: {} }))
     .then(() => User.destroy({ where: {} }))
     .then(() => done());
