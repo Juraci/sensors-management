@@ -11,7 +11,7 @@ export default class UsersController extends ApplicationController {
   }
 
   static throwIfWrongPassord(user, password) {
-    if (user.password !== password) {
+    if (!user.isValidPassword(password)) {
       throw new Error(UsersController.failedAuthMessage());
     }
     return user;
@@ -55,10 +55,10 @@ export default class UsersController extends ApplicationController {
 
   authenticate({ email, password }) {
     return this.User.find({ where: { email } })
-      .then(record => UsersController.throwIfNotFound(record))
+      .then(UsersController.throwIfNotFound)
       .then(user => UsersController.throwIfWrongPassord(user, password))
       .then(user => this.signToken(user))
-      .then(token => UsersController.authSuccess(token))
-      .catch(err => UsersController.authFailed(err));
+      .then(UsersController.authSuccess)
+      .catch(UsersController.authFailed);
   }
 }

@@ -9,6 +9,11 @@ module.exports = function (sequelize, DataTypes) {
         User.hasMany(models.Sensor, { as: 'sensors' });
       },
     },
+    instanceMethods: {
+      isValidPassword(password) {
+        return this.password === password;
+      },
+    },
   });
   return User;
 };
