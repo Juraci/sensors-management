@@ -50,7 +50,7 @@ export default class UsersController extends ApplicationController {
     return jwt.sign({
       id: user.id,
       email: user.email,
-    }, this.jwtConfig.secret, this.jwtConfig.expiresIn);
+    }, this.jwtConfig.secret, { expiresIn: this.jwtConfig.expiresIn });
   }
 
   authenticate({ email, password }) {
