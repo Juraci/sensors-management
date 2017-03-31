@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && node index.js",
     "build": "rm -rf ./build && babel app -d build",
-    "test": "npm run acceptance && npm run layers",
+    "test": "npm run acceptance && npm run layers && npm run lint",
     "acceptance": "NODE_ENV=test mocha --opts spec/acceptance/mocha.opts spec/acceptance/*.js",
     "layers": "NODE_ENV=test mocha --opts spec/layers/mocha.opts spec/layers/**/*.js",
     "lint": "eslint '**/*.js'",
