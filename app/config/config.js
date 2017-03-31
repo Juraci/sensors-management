@@ -1,5 +1,5 @@
 export default {
-  database: process.env.DB_NAME || 'sensors-management',
+  database: process.env.DB_NAME || 'sensors_management',
   username: process.env.PG_USER || 'postgres',
   password: process.env.PG_PASSWORD || 'postgres',
   params: {
