@@ -4,7 +4,9 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import config from './config/config';
 import datasource from './config/datasource';
+import setupAuth from './middlewares/auth';
 import authentication from './routes/authentication';
+import sensors from './routes/sensors';
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -13,7 +15,9 @@ app.use(cors(config.corsOptions));
 app.use(morgan('tiny'));
 app.set('config', config);
 app.set('datasource', datasource(app));
+const auth = setupAuth(app);
 
 app.use('/authenticate', authentication({ app, jsonParser }));
+app.use('/sensors', sensors({ app, auth, jsonParser }));
 
 export default app;
