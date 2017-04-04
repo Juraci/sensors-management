@@ -5,11 +5,18 @@ export default (app) => {
 
   return (req, res, next) => {
     const token = req.headers['x-access-token'];
-    if (!token) {
+
+    let decoded;
+
+    try {
+      decoded = jwt.verify(token, secret);
+    } catch (err) {
+      console.log('auth error: ', err.message);
       return res.sendStatus(401);
     }
+
     /*eslint-disable*/
-      req.user = jwt.verify(token, secret);
+    req.user = decoded;
     /*eslint-enable*/
     return next();
   };

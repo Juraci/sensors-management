@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 describe('GET /sensors', () => {
   const User = app.get('datasource').models.User;
   const Sensor = app.get('datasource').models.Sensor;
@@ -65,6 +67,39 @@ describe('GET /sensors', () => {
     it('returns 401 unauthorized', (done) => {
       request
         .get('/sensors')
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          done();
+        });
+    });
+  });
+
+  context('for a request with a fake token', () => {
+    let fakeToken;
+    let user;
+
+    beforeEach(() => User.create({ email, password })
+      .then((record) => {
+        user = record;
+      })
+      .then(() => Sensor.create({
+        UserId: user.id,
+        boardId: 'my-board-id',
+        description: 'motion sensor in the living room',
+      }))
+      .then(() => {
+        fakeToken = jwt.sign({
+          id: user.id,
+          email: user.email,
+        }, 'wrongSecret', { expiresIn: '24h' });
+      }),
+    );
+
+    it('returns the sensors', (done) => {
+      request
+        .get('/sensors')
+        .set('x-access-token', fakeToken)
         .set('Accept', 'application/json')
         .end((err, res) => {
           expect(res.status).to.equal(401);
