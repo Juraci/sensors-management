@@ -11,7 +11,8 @@
     "layers": "NODE_ENV=test mocha --opts spec/layers/mocha.opts spec/layers/**/*.js",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix",
-    "migrations": "sequelize db:migrate --env production"
+    "migrations": "sequelize db:migrate --env production",
+    "seed": "npm run build && NODE_ENV=development node seeders/default.js"
   },
   "repository": {
     "type": "git",
