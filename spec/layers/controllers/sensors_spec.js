@@ -10,7 +10,7 @@ describe('SensosrsController', () => {
     .then(() => destroyAll(datasource)));
 
   describe('#findAll', () => {
-    context('for an authenticated user', () => {
+    context('for an existing user that has one sensor', () => {
       const email = 'user-sample@sensors.com';
       const password = 'my-secret-password';
       let user;
@@ -22,7 +22,7 @@ describe('SensosrsController', () => {
         .then(() => datasource.models.Sensor.create({ boardId: '0123', description: 'living room', UserId: user.id })),
       );
 
-      it('returns the sensors that he or she owns', () => {
+      it('returns the sensors', () => {
         const sensorsController = new SensorsController(app);
         const query = { UserId: user.id };
         return sensorsController.findAll(query)
