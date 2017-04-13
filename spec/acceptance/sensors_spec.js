@@ -96,7 +96,7 @@ describe('GET /sensors', () => {
       }),
     );
 
-    it('returns the sensors', (done) => {
+    it('returns unauthorized', (done) => {
       request
         .get('/sensors')
         .set('x-access-token', fakeToken)
