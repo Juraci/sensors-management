@@ -109,4 +109,46 @@ describe('sensors', () => {
       });
     });
   });
+
+  describe('POST /sensors', () => {
+    let token;
+
+    beforeEach((done) => {
+      User.create({ email, password })
+        .then(() => {
+          const credentials = { email, password };
+          request
+            .post('/authenticate')
+            .send(credentials)
+            .end((err, res) => {
+              token = res.body.token;
+              done();
+            });
+        });
+    });
+
+    it('creates the sensor', (done) => {
+      const sensor = {
+        data: {
+          attributes: {
+            description: 'Garage sensor',
+            'board-id': '1231l23k12lkKÇLJKÇLSK230oKOKS93jnnJH',
+          },
+          type: 'sensors',
+        },
+      };
+
+      request
+        .post('/sensors')
+        .set('x-access-token', token)
+        .send(sensor)
+        .end((err, res) => {
+          expect(res.status).to.equal(201);
+          const record = res.body.data;
+          expect(record.type).to.equal('sensors');
+          expect(record.attributes).to.have.all.keys('description', 'board-id');
+          done(err);
+        });
+    });
+  });
 });

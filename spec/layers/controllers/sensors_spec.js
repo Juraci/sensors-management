@@ -2,6 +2,8 @@ import SensorsController from '../../../app/controllers/sensors';
 
 describe('SensosrsController', () => {
   let datasource;
+  const email = 'user-sample@sensors.com';
+  const password = 'my-secret-password';
 
   beforeEach(() => setupDatasource()
     .then((ds) => {
@@ -11,8 +13,6 @@ describe('SensosrsController', () => {
 
   describe('#findAll', () => {
     context('for an existing user that has one sensor', () => {
-      const email = 'user-sample@sensors.com';
-      const password = 'my-secret-password';
       let user;
 
       beforeEach(() => datasource.models.User.create({ email, password })
@@ -34,6 +34,38 @@ describe('SensosrsController', () => {
             expect(body.data[0].attributes).to.have.keys(['board-id', 'description']);
           });
       });
+    });
+  });
+
+  describe('#create', () => {
+    const sensor = {
+      data: {
+        attributes: {
+          description: 'Garage sensor',
+          'board-id': '1231l23k12lkKÇLJKÇLSK230oKOKS93jnnJH',
+        },
+        type: 'sensors',
+      },
+    };
+
+    let user;
+
+    beforeEach(() => datasource.models.User.create({ email, password })
+      .then((record) => {
+        user = record;
+      }),
+    );
+
+    it('creates the sensors', () => {
+      const sensorsController = new SensorsController(app);
+      const userId = user.id;
+      return sensorsController.create(userId, sensor)
+        .then((result) => {
+          expect(result.status).to.be.equal(201);
+          const body = result.data;
+          expect(body.data.type).to.be.equal('sensors');
+          expect(body.data.attributes).to.have.keys(['board-id', 'description']);
+        });
     });
   });
 });

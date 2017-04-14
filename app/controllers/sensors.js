@@ -14,4 +14,17 @@ export default class SensorsController extends ApplicationController {
 
     this.Sensor = Sensor;
   }
+
+  static mountObj(userId, data) {
+    return { description: data.description, UserId: userId };
+  }
+
+  create(userId, data) {
+    return this.deserialize(data)
+      .then(dsData => SensorsController.mountObj(userId, dsData))
+      .then(mountedObj => this.model.create(mountedObj))
+      .then(record => this.serialize(record))
+      .then(serializedObj => ApplicationController.created(serializedObj))
+      .catch(err => ApplicationController.jsonApiError(400, err));
+  }
 }
