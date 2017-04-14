@@ -65,6 +65,7 @@ describe('SensosrsController', () => {
           const body = result.data;
           expect(body.data.type).to.be.equal('sensors');
           expect(body.data.attributes).to.have.keys(['board-id', 'description']);
+          expect(body.data.attributes['board-id']).to.be.equal(sensor.data.attributes['board-id']);
         });
     });
   });

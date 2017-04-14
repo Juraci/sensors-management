@@ -16,7 +16,7 @@ export default class SensorsController extends ApplicationController {
   }
 
   static mountObj(userId, data) {
-    return { description: data.description, UserId: userId };
+    return { description: data.description, boardId: data['board-id'], UserId: userId };
   }
 
   create(userId, data) {
