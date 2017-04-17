@@ -18,31 +18,12 @@ class ApplicationController {
 
   findAll(query) {
     return this.model.findAll({
-      where: query.filter,
+      where: query,
       include: this.relations,
     })
       .then(records => this.serialize(records))
       .then(data => ApplicationController.ok(data))
       .catch(err => ApplicationController.unprocessableEntity(err));
-  }
-
-  findById(id) {
-    return this.model.find({
-      where: { id: parseInt(id, 10) },
-      include: this.relations,
-    })
-      .then(record => ApplicationController.throwIfNotFound(record))
-      .then(record => this.serialize(record))
-      .then(data => ApplicationController.ok(data))
-      .catch(err => ApplicationController.notFound(err));
-  }
-
-  updateById(id, payload) {
-    return this.deserialize(payload)
-      .then(dsPayload => this.model.update(dsPayload, { where: { id: parseInt(id, 10) } }))
-      .then(result => ApplicationController.throwIfNotUpdated(result))
-      .then(() => ApplicationController.noContent())
-      .catch(err => ApplicationController.notFound(err));
   }
 
   static defaultResponse(status, data) {
@@ -92,6 +73,10 @@ class ApplicationController {
 
   static throwIfNotUpdated(result) {
     if (result[0] !== 1) { throw new Error('resource not found'); }
+  }
+
+  static throwIfNotDeleted(result) {
+    if (result !== 1) { throw new Error('resource not found'); }
   }
 }
 

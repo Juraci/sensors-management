@@ -151,4 +151,46 @@ describe('sensors', () => {
         });
     });
   });
+
+  describe('DELETE /sensors/:id', () => {
+    let user;
+    let sensor;
+    let token;
+
+    beforeEach((done) => {
+      User.create({ email, password })
+        .then((record) => {
+          user = record;
+        })
+        .then(() => Sensor.create({
+          UserId: user.id,
+          boardId: 'my-board-id',
+          description: 'motion sensor in the living room',
+        }))
+        .then((sensorRecord) => {
+          sensor = sensorRecord;
+        })
+        .then(() => {
+          const credentials = { email, password };
+          request
+            .post('/authenticate')
+            .send(credentials)
+            .end((err, res) => {
+              token = res.body.token;
+              done();
+            });
+        });
+    });
+
+    it('deletes the sensor', (done) => {
+      request
+        .del(`/sensors/${sensor.id}`)
+        .set('x-access-token', token)
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          expect(res.status).to.equal(204);
+          done(err);
+        });
+    });
+  });
 });

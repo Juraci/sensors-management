@@ -69,4 +69,27 @@ describe('SensosrsController', () => {
         });
     });
   });
+
+  describe('#deleteById', () => {
+    let user;
+    let sensor;
+
+    beforeEach(() => datasource.models.User.create({ email, password })
+      .then((record) => {
+        user = record;
+      })
+      .then(() => datasource.models.Sensor.create({ boardId: '0123', description: 'living room', UserId: user.id }))
+      .then((newSensor) => {
+        sensor = newSensor;
+      }),
+    );
+
+    it('deletes the sensors', () => {
+      const sensorsController = new SensorsController(app);
+      return sensorsController.deleteById(user.id, sensor.id)
+        .then((result) => {
+          expect(result.status).to.be.equal(204);
+        });
+    });
+  });
 });

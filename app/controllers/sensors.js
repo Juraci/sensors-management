@@ -27,4 +27,13 @@ export default class SensorsController extends ApplicationController {
       .then(serializedObj => ApplicationController.created(serializedObj))
       .catch(err => ApplicationController.jsonApiError(400, err));
   }
+
+  deleteById(userId, id) {
+    return this.model.destroy({
+      where: { id, UserId: userId },
+    })
+      .then(SensorsController.throwIfNotDeleted)
+      .then(SensorsController.noContent)
+      .catch(SensorsController.notFound);
+  }
 }
