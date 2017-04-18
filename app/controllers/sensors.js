@@ -24,7 +24,7 @@ export default class SensorsController extends ApplicationController {
       .then(dsData => SensorsController.mountObj(userId, dsData))
       .then(mountedObj => this.model.create(mountedObj))
       .then(record => this.serialize(record))
-      .then(serializedObj => ApplicationController.created(serializedObj))
+      .then(ApplicationController.created)
       .catch(err => ApplicationController.jsonApiError(400, err));
   }
 
