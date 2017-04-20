@@ -37,5 +37,15 @@ describe('ListenersHub', () => {
       expect(spy).to.have.been.calledOnce;
       expect(listenersHub.all()).to.have.length(1);
     });
+
+    context('when the sse client is not found in the collection', () => {
+      it('should not break', () => {
+        expect(() => {
+          listenersHub.remove('777');
+        }).to.not.throw(/Cannot read property 'close' of undefined/);
+      });
+    });
   });
 });
+
+
