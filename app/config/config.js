@@ -23,4 +23,5 @@ export default {
     secret: process.env.SECRET || 'mysecret',
     expiresIn: '24h',
   },
+  sse: process.env.NODE_ENV === 'test' ? 'http://localhost:3000' : process.env.SSE,
 };
