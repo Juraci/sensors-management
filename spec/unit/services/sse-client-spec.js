@@ -8,6 +8,7 @@ describe('Sse client', () => {
     it('instantiates the EventSource with the given uri', () => {
       const expectedUri = `${config.sse}/cards/${boardId}/stream`;
 
+    /*eslint-disable*/
       class EventSource {
         constructor(uri) {
           expect(uri).to.be.equal(expectedUri);
@@ -15,14 +16,17 @@ describe('Sse client', () => {
       }
 
       new SseClient(boardId, EventSource);
+    /*eslint-enable*/
     });
   });
 
   describe('#subscribe', () => {
     it('sends on message to the EventSource', () => {
+    /*eslint-disable*/
       class EventSource {
         on() {}
       }
+    /*eslint-enable*/
 
       const spy = sinon.spy(EventSource.prototype, 'on');
 
@@ -34,9 +38,11 @@ describe('Sse client', () => {
 
   describe('#close', () => {
     it('sends close message to EventSource', () => {
+    /*eslint-disable*/
       class EventSource {
         close() {}
       }
+    /*eslint-enable*/
 
       const spy = sinon.spy(EventSource.prototype, 'close');
 

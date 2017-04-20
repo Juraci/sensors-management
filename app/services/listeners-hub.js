@@ -14,7 +14,7 @@ const reset = () => {
 const remove = (boardId) => {
   const index = listeners.findIndex(listener => listener.getBoardId() === boardId);
   const removedClient = listeners.splice(index, 1)[0];
-  if(removedClient) {
+  if (removedClient) {
     removedClient.close();
   }
 };
