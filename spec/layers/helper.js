@@ -23,8 +23,10 @@ global.setupDatasource = () => {
 global.destroyAll = (ds) => {
   const User = ds.models.User;
   const Sensor = ds.models.Sensor;
+  const Alert = ds.models.Alert;
 
   return ds.sequelize.sync()
+    .then(() => Alert.destroy({ where: {} }))
     .then(() => Sensor.destroy({ where: {} }))
     .then(() => User.destroy({ where: {} }));
 };

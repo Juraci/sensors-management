@@ -11,7 +11,6 @@ export default (app) => {
     try {
       decoded = jwt.verify(token, secret);
     } catch (err) {
-      console.log('auth error: ', err.message);
       return res.sendStatus(401);
     }
 

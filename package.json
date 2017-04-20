@@ -9,6 +9,7 @@
     "test": "npm run acceptance && npm run layers && npm run lint",
     "acceptance": "NODE_ENV=test mocha --opts spec/acceptance/mocha.opts spec/acceptance/*.js",
     "layers": "NODE_ENV=test mocha --opts spec/layers/mocha.opts spec/layers/**/*.js",
+    "unit": "NODE_ENV=test mocha --opts spec/unit/mocha.opts spec/unit/**/*.js",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix",
     "migrations": "sequelize db:migrate --env production",
@@ -25,6 +26,7 @@
     "babel-preset-node6": "^11.0.0",
     "body-parser": "^1.17.1",
     "cors": "^2.8.1",
+    "eventsource": "^1.0.0",
     "express": "^4.15.2",
     "http-status-codes": "^1.1.6",
     "jsonapi-serializer": "^3.4.2",
@@ -43,6 +45,8 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "mocha": "^3.2.0",
+    "sinon": "^2.1.0",
+    "sinon-chai": "^2.9.0",
     "supertest": "^3.0.0"
   }
 }

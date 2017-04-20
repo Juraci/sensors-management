@@ -1,4 +1,6 @@
 import SensorsController from '../../../app/controllers/sensors';
+import listenersHub from '../../../app/services/listeners-hub';
+import SseClient from '../../../app/services/sse-client';
 
 describe('SensosrsController', () => {
   let datasource;
@@ -9,7 +11,8 @@ describe('SensosrsController', () => {
     .then((ds) => {
       datasource = ds;
     })
-    .then(() => destroyAll(datasource)));
+    .then(() => destroyAll(datasource))
+    .then(() => listenersHub.reset()));
 
   describe('#findAll', () => {
     context('for an existing user that has one sensor', () => {
@@ -68,6 +71,16 @@ describe('SensosrsController', () => {
           expect(body.data.attributes['board-id']).to.be.equal(sensor.data.attributes['board-id']);
         });
     });
+
+    it('creates a sse listener for this sensor', () => {
+      const sensorsController = new SensorsController(app, listenersHub);
+      const userId = user.id;
+      return sensorsController.create(userId, sensor)
+        .then((result) => {
+          expect(result.status).to.be.equal(201);
+          expect(listenersHub.all()).to.have.length(1);
+        });
+    });
   });
 
   describe('#deleteById', () => {
@@ -84,11 +97,14 @@ describe('SensosrsController', () => {
       }),
     );
 
-    it('deletes the sensors', () => {
-      const sensorsController = new SensorsController(app);
+    it('deletes the sensor', () => {
+      const sseC = new SseClient('0123');
+      listenersHub.add(sseC);
+      const sensorsController = new SensorsController(app, listenersHub);
       return sensorsController.deleteById(user.id, sensor.id)
         .then((result) => {
           expect(result.status).to.be.equal(204);
+          expect(listenersHub.all()).to.have.length(0);
         });
     });
   });

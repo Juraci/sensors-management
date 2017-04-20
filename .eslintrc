@@ -2,6 +2,7 @@
   "extends":"airbnb",
   "rules": {
     "complexity": [error, { "max": 2 }],
+    "no-unused-expressions": 1
   },
   "env": {
     "mocha": true

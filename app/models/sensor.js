@@ -1,5 +1,4 @@
-
-module.exports = function (sequelize, DataTypes) {
+const sensor = (sequelize, DataTypes) => {
   const Sensor = sequelize.define('Sensor', {
     boardId: DataTypes.STRING,
     description: DataTypes.STRING,
@@ -7,8 +6,11 @@ module.exports = function (sequelize, DataTypes) {
     classMethods: {
       associate(models) {
         Sensor.belongsTo(models.User);
+        Sensor.hasMany(models.Alert, { as: 'alerts' });
       },
     },
   });
   return Sensor;
 };
+
+module.exports = sensor;

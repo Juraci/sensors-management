@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import User from '../models/user';
 import Sensor from '../models/sensor';
+import Alert from '../models/alert';
 
 let database = null;
 
@@ -8,6 +9,7 @@ const loadModels = (sequelize, DataType) => {
   const models = [];
   models.User = User(sequelize, DataType);
   models.Sensor = Sensor(sequelize, DataType);
+  models.Alert = Alert(sequelize, DataType);
   return models;
 };
 
