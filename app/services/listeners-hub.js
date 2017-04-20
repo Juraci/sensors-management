@@ -12,9 +12,7 @@ const reset = () => {
 };
 
 const remove = (boardId) => {
-  const index = listeners.findIndex((listener) => {
-    return listener.getBoardId() === boardId;
-  });
+  const index = listeners.findIndex(listener => listener.getBoardId() === boardId);
   if (index === -1) {
     return;
   }
