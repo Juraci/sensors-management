@@ -6,12 +6,14 @@ import SseClient from '../services/sse-client';
 export default class SensorsController extends ApplicationController {
   constructor(app, listenersManager = listenersHub, SseConsumer = SseClient) {
     const Sensor = app.get('datasource').models.Sensor;
+    const Alert = app.get('datasource').models.Alert;
     const sensorSerializer = new SensorSerializer();
 
     super({
       model: Sensor,
-      serializer: sensorSerializer.buildSerializer(),
+      serializer: sensorSerializer.buildSerializer(true),
       deserializer: SensorSerializer.buildDeserializer(),
+      relations: [{ model: Alert, as: 'alerts' }],
     });
 
     this.Sensor = Sensor;

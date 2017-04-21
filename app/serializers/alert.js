@@ -7,4 +7,12 @@ export default class AlertSerializer extends ApplicationSerializer {
       attributes: ['message', 'seen'],
     });
   }
+
+  static buildDeserializer() {
+    return ApplicationSerializer.buildDeserializer({
+      sensors: {
+        valueForRelationship: relationship => ({ id: relationship.id }),
+      },
+    });
+  }
 }

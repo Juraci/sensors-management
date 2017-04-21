@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 describe('sensors', () => {
   const User = app.get('datasource').models.User;
   const Sensor = app.get('datasource').models.Sensor;
+  const Alert = app.get('datasource').models.Alert;
   const email = 'user-sample@sensors.com';
   const password = 'my-secret-password';
 
@@ -12,6 +13,7 @@ describe('sensors', () => {
     context('for an authenticated request', () => {
       let user;
       let sensor;
+      let alert;
       let token;
 
       beforeEach((done) => {
@@ -27,6 +29,14 @@ describe('sensors', () => {
           .then((sensorRecord) => {
             sensor = sensorRecord;
           })
+          .then(() => Alert.create({
+            SensorId: sensor.id,
+            message: 'Motion detected',
+            seen: false,
+          }))
+          .then((newAlert) => {
+            alert = newAlert;
+          })
           .then(() => {
             const credentials = { email, password };
             request
@@ -40,17 +50,46 @@ describe('sensors', () => {
       });
 
       it('returns the sensors', (done) => {
+        const expectedResponse = {
+          data: [
+            {
+              type: 'sensors',
+              id: `${sensor.id}`,
+              attributes: {
+                'board-id': sensor.boardId,
+                description: sensor.description,
+              },
+              relationships: {
+                alerts: {
+                  data: [
+                    {
+                      type: 'alerts',
+                      id: `${alert.id}`,
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+          included: [
+            {
+              type: 'alerts',
+              id: `${alert.id}`,
+              attributes: {
+                message: alert.message,
+                seen: alert.seen,
+              },
+            },
+          ],
+        };
+
         request
           .get('/sensors')
           .set('x-access-token', token)
           .set('Accept', 'application/json')
           .end((err, res) => {
             expect(res.status).to.equal(200);
-            expect(res.body.data).to.have.length(1);
-            const record = res.body.data[0];
-            expect(record.type).to.equal('sensors');
-            expect(record.attributes).to.have.all.keys('description', 'board-id');
-            expect(record.attributes['board-id']).to.be.equal(sensor.boardId);
+            expect(res.body).to.be.deep.equal(expectedResponse);
             done(err);
           });
       });

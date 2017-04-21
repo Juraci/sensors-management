@@ -22,7 +22,8 @@ describe('SensosrsController', () => {
         .then((record) => {
           user = record;
         })
-        .then(() => datasource.models.Sensor.create({ boardId: '0123', description: 'living room', UserId: user.id })),
+        .then(() => datasource.models.Sensor.create({ boardId: '0123', description: 'living room', UserId: user.id }))
+        .then(sensor => datasource.models.Alert.create({ SensorId: sensor.id, message: 'Motion detected', seen: false })),
       );
 
       it('returns the sensors', () => {
@@ -33,8 +34,10 @@ describe('SensosrsController', () => {
             expect(result.status).to.be.equal(200);
             const body = result.data;
             expect(body.data).to.have.length(1);
-            expect(body.data[0].type).to.be.equal('sensors');
-            expect(body.data[0].attributes).to.have.keys(['board-id', 'description']);
+            const record = body.data[0];
+            expect(record.type).to.be.equal('sensors');
+            expect(record.attributes).to.have.keys(['board-id', 'description']);
+            expect(body).to.have.property('included');
           });
       });
     });
