@@ -17,6 +17,7 @@ export default class SensorsController extends ApplicationController {
     });
 
     this.Sensor = Sensor;
+    this.Alert = Alert;
     this.listenersHub = listenersManager;
     this.SseClient = SseConsumer;
   }
@@ -30,7 +31,7 @@ export default class SensorsController extends ApplicationController {
   }
 
   createListener(record) {
-    const sseClient = new this.SseClient(record.boardId);
+    const sseClient = new this.SseClient(record.boardId, record.id, this.Alert);
     this.listenersHub.add(sseClient);
     return record;
   }
