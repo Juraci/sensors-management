@@ -4,7 +4,7 @@ export default class AlertSerializer extends ApplicationSerializer {
   constructor() {
     super({
       type: 'alerts',
-      attributes: ['message', 'seen'],
+      attributes: ['message', 'seen', 'createdAt'],
     });
   }
 

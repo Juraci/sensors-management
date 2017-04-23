@@ -89,6 +89,9 @@ describe('sensors', () => {
           .set('Accept', 'application/json')
           .end((err, res) => {
             expect(res.status).to.equal(200);
+            /*eslint-disable*/
+            delete res.body.included[0].attributes['created-at'];
+            /*eslint-enable*/
             expect(res.body).to.be.deep.equal(expectedResponse);
             done(err);
           });
