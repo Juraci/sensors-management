@@ -101,7 +101,11 @@ describe('SensosrsController', () => {
     );
 
     it('deletes the sensor', () => {
-      const sseC = new SseClient('0123', sensor.id, datasource.models.Alert);
+      const sseC = new SseClient({
+        boardId: '0123',
+        sensorId: sensor.id,
+        model: datasource.models.Alert,
+      });
       listenersHub.add(sseC);
       const sensorsController = new SensorsController(app, listenersHub);
       return sensorsController.deleteById(user.id, sensor.id)

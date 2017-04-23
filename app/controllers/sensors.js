@@ -31,7 +31,11 @@ export default class SensorsController extends ApplicationController {
   }
 
   createListener(record) {
-    const sseClient = new this.SseClient(record.boardId, record.id, this.Alert);
+    const sseClient = new this.SseClient({
+      boradId: record.boardId,
+      sensorId: record.id,
+      model: this.Alert,
+    });
     this.listenersHub.add(sseClient);
     return record;
   }

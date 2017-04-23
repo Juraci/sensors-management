@@ -2,7 +2,7 @@ import Es from 'eventsource';
 import config from '../config/config';
 
 export default class SseClient {
-  constructor(boardId, sensorId, model, EventSource = Es) {
+  constructor({ boardId, sensorId, model }, EventSource = Es) {
     this.source = new EventSource(`${config.sse}/cards/${boardId}/stream`);
     this.boardId = boardId;
     this.sensorId = sensorId;

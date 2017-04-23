@@ -20,7 +20,7 @@ describe('Sse client', () => {
         }
       }
 
-      new SseClient(boardId, sensorId, Alert, EventSource);
+      new SseClient({boardId, sensorId, model: Alert }, EventSource);
       /*eslint-enable*/
     });
   });
@@ -35,7 +35,7 @@ describe('Sse client', () => {
 
       const spy = sinon.spy(EventSource.prototype, 'on');
 
-      const sseClient = new SseClient(boardId, sensorId, Alert, EventSource);
+      const sseClient = new SseClient({ boardId, sensorId, model: Alert }, EventSource);
       sseClient.subscribe();
       expect(spy).to.have.been.calledWith('message');
     });
@@ -51,7 +51,7 @@ describe('Sse client', () => {
 
       const spy = sinon.spy(EventSource.prototype, 'close');
 
-      const sseClient = new SseClient(boardId, sensorId, Alert, EventSource);
+      const sseClient = new SseClient({ boardId, sensorId, model: Alert }, EventSource);
       sseClient.close();
       expect(spy).to.have.been.calledOnce;
     });
@@ -66,7 +66,7 @@ describe('Sse client', () => {
 
       const spy = sinon.spy(Alert, 'create');
 
-      const sseClient = new SseClient(boardId, sensorId, Alert, EventSource);
+      const sseClient = new SseClient({ boardId, sensorId, model: Alert }, EventSource);
       sseClient.subscribe();
       sseClient.source.emit('message', e);
       expect(spy).to.have.been.calledWith({ SensorId: sensorId, message: e.data, seen: false });
