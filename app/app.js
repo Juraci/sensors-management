@@ -7,6 +7,7 @@ import datasource from './config/datasource';
 import setupAuth from './middlewares/auth';
 import authentication from './routes/authentication';
 import sensors from './routes/sensors';
+import alerts from './routes/alerts';
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -19,5 +20,6 @@ const auth = setupAuth(app);
 
 app.use('/authenticate', authentication({ app, jsonParser }));
 app.use('/sensors', sensors({ app, auth, jsonParser }));
+app.use('/alerts', alerts({ app, auth }));
 
 export default app;
