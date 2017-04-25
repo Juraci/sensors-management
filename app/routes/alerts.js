@@ -8,7 +8,7 @@ export default ({ app, auth }) => {
 
   router.route('/:id')
     .delete(auth, (req, res) => {
-      alertsController.deleteById(/* parseInt(req.user.id, 10),*/ parseInt(req.params.id, 10))
+      alertsController.deleteById(parseInt(req.user.id, 10), parseInt(req.params.id, 10))
         .then(result => res.status(result.status).json(result.data));
     });
 

@@ -12,5 +12,6 @@ app.get('datasource').sequelize.sync().then(() => {
     .then(sensor1 => Alert.create({ SensorId: sensor1.id, message: 'Movement detected', seen: false }))
     .then(() => User.create({ email: 'sample2@example.com', password: 'pass123' }))
     .then(user2 => Sensor.create({ UserId: user2.id, description: 'Bedroom sensor', boardId: '09273ADC' }))
+    .then(sensor2 => Alert.create({ SensorId: sensor2.id, message: 'Movement detected', seen: false }))
     .catch(err => console.log('default seed script error\n:', err));
 });
