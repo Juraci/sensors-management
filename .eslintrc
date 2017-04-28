@@ -14,6 +14,9 @@
     "config": false,
     "request": false,
     "destroyAll": false,
-    "setupDatasource": false
+    "setup": false,
+    "User": false,
+    "Sensor": false,
+    "Alert": false
   }
 }

@@ -2,20 +2,14 @@ import jwt from 'jsonwebtoken';
 import UsersController from '../../../app/controllers/users';
 
 describe('UsersController', () => {
-  let datasource;
-
-  beforeEach(() => setupDatasource()
-    .then((ds) => {
-      datasource = ds;
-    })
-    .then(() => destroyAll(datasource)));
+  beforeEach(() => setup());
 
   describe('#authenticate', () => {
     const email = 'user-sample@sensors.com';
     const password = 'my-secret-password';
     let user;
 
-    beforeEach(() => datasource.models.User.create({ email, password })
+    beforeEach(() => User.create({ email, password })
         .then((record) => {
           user = record;
         }));

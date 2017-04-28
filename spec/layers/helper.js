@@ -10,22 +10,19 @@ global.app = {
   get: property => app[property],
 };
 
-global.setupDatasource = () => {
+global.setup = () => {
   app.config = config;
   const ds = datasource(app);
   return ds.sequelize.sync()
-      .then(() => {
-        app.datasource = ds;
-        return ds;
-      });
-};
-
-global.destroyAll = (ds) => {
-  const User = ds.models.User;
-  const Sensor = ds.models.Sensor;
-  const Alert = ds.models.Alert;
-
-  return ds.sequelize.sync()
+    .then(() => {
+      app.datasource = ds;
+      return ds;
+    })
+    .then((db) => {
+      global.User = db.models.User;
+      global.Sensor = db.models.Sensor;
+      global.Alert = db.models.Alert;
+    })
     .then(() => Alert.destroy({ where: {} }))
     .then(() => Sensor.destroy({ where: {} }))
     .then(() => User.destroy({ where: {} }));

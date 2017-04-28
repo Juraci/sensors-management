@@ -3,27 +3,22 @@ import listenersHub from '../../../app/services/listeners-hub';
 import SseClient from '../../../app/services/sse-client';
 
 describe('SensosrsController', () => {
-  let datasource;
   const email = 'user-sample@sensors.com';
   const password = 'my-secret-password';
 
-  beforeEach(() => setupDatasource()
-    .then((ds) => {
-      datasource = ds;
-    })
-    .then(() => destroyAll(datasource))
+  beforeEach(() => setup()
     .then(() => listenersHub.reset()));
 
   describe('#findAll', () => {
     context('for an existing user that has one sensor', () => {
       let user;
 
-      beforeEach(() => datasource.models.User.create({ email, password })
+      beforeEach(() => User.create({ email, password })
         .then((record) => {
           user = record;
         })
-        .then(() => datasource.models.Sensor.create({ boardId: '0123', description: 'living room', UserId: user.id }))
-        .then(sensor => datasource.models.Alert.create({ SensorId: sensor.id, message: 'Motion detected', seen: false })),
+        .then(() => Sensor.create({ boardId: '0123', description: 'living room', UserId: user.id }))
+        .then(sensor => Alert.create({ SensorId: sensor.id, message: 'Motion detected', seen: false })),
       );
 
       it('returns the sensors', () => {
@@ -56,7 +51,7 @@ describe('SensosrsController', () => {
 
     let user;
 
-    beforeEach(() => datasource.models.User.create({ email, password })
+    beforeEach(() => User.create({ email, password })
       .then((record) => {
         user = record;
       }),
@@ -90,11 +85,11 @@ describe('SensosrsController', () => {
     let user;
     let sensor;
 
-    beforeEach(() => datasource.models.User.create({ email, password })
+    beforeEach(() => User.create({ email, password })
       .then((record) => {
         user = record;
       })
-      .then(() => datasource.models.Sensor.create({ boardId: '0123', description: 'living room', UserId: user.id }))
+      .then(() => Sensor.create({ boardId: '0123', description: 'living room', UserId: user.id }))
       .then((newSensor) => {
         sensor = newSensor;
       }),
@@ -104,7 +99,7 @@ describe('SensosrsController', () => {
       const sseC = new SseClient({
         boardId: '0123',
         sensorId: sensor.id,
-        model: datasource.models.Alert,
+        model: Alert,
       });
       listenersHub.add(sseC);
       const sensorsController = new SensorsController(app, listenersHub);
