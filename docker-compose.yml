@@ -1,6 +1,6 @@
 version: '2'
 services:
-  pomodorify-backend:
+  web:
     build:
       context: .
     environment:
