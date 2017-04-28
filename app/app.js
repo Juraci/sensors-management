@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import config from './config/config';
 import datasource from './config/datasource';
+import ListenersInitializer from './initializers/listeners';
 import setupAuth from './middlewares/auth';
 import authentication from './routes/authentication';
 import sensors from './routes/sensors';
@@ -17,6 +18,11 @@ app.use(morgan('tiny'));
 app.set('config', config);
 app.set('datasource', datasource(app));
 const auth = setupAuth(app);
+
+new ListenersInitializer({
+  sensor: app.get('datasource').models.Sensor,
+  alert: app.get('datasource').models.Alert,
+}).load();
 
 app.use('/authenticate', authentication({ app, jsonParser }));
 app.use('/sensors', sensors({ app, auth, jsonParser }));
