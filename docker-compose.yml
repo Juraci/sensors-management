@@ -13,6 +13,20 @@ services:
     volumes:
       - .:/home/app/sensors-management
       - /home/app/sensors-management/node_modules
+  tests:
+    build:
+      context: .
+    command: npm test
+    environment:
+      NODE_ENV: development
+      DB_HOST: db
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/app/sensors-management
+      - /home/app/sensors-management/node_modules
   db:
     image: postgres:9.6
     ports:

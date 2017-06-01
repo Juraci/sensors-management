@@ -1,11 +1,11 @@
-FROM node:6
+FROM node:8
 
 ENV HOME=/home/app
 
 COPY package.json $HOME/sensors-management/
 
 WORKDIR $HOME/sensors-management
-RUN npm cache clean && npm install --progress=false
+RUN npm install --progress=false
 
 COPY . $HOME/sensors-management
 
