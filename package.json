@@ -6,12 +6,10 @@
   "scripts": {
     "start": "npm run build && node index.js",
     "build": "rm -rf ./build && babel app -d build",
-    "test": "npm run acceptance && npm run layers && npm run unit && npm run lint",
+    "test": "npm run acceptance && npm run layers && npm run unit",
     "acceptance": "NODE_ENV=test mocha --opts spec/acceptance/mocha.opts spec/acceptance/*.js",
     "layers": "NODE_ENV=test mocha --opts spec/layers/mocha.opts spec/layers/**/*.js",
     "unit": "NODE_ENV=test mocha --opts spec/unit/mocha.opts spec/unit/**/*.js",
-    "lint": "eslint '**/*.js'",
-    "lint:fix": "eslint '**/*.js' --fix",
     "migrations": "sequelize db:migrate --env production",
     "seed": "npm run build && NODE_ENV=development node seeders/default.js"
   },
@@ -39,11 +37,6 @@
   },
   "devDependencies": {
     "chai": "^4.0.2",
-    "eslint": "^3.18.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^7.0.0",
     "mocha": "^3.2.0",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.9.0",
