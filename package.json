@@ -28,7 +28,7 @@
     "express": "^4.15.2",
     "http-status-codes": "^1.1.6",
     "jsonapi-serializer": "^3.4.2",
-    "jsonwebtoken": "^8.0.0",
+    "jsonwebtoken": "^8.4.0",
     "morgan": "^1.8.1",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
